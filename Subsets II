@@ -1,0 +1,26 @@
+class Solution {
+public:
+    void solve(vector<int>&ip , int ind , vector<int>&op , vector<vector<int>>&ans)
+    {
+        ans.push_back(op);
+        
+        for(int i=ind ; i<ip.size() ; i++)
+        {
+            if(i!=ind and ip[i] == ip[i-1])
+                continue;
+            
+            op.push_back(ip[i]);
+            solve(ip , i+1 , op , ans);
+            op.pop_back();
+        }
+        
+    }
+    
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        vector<vector<int>>ans;
+        vector<int>op;
+        sort(nums.begin() , nums.end());
+        solve(nums , 0 , op , ans);
+        return ans;
+    }
+};
