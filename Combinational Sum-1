@@ -1,0 +1,27 @@
+class Solution {
+public:
+    void solve(vector<int>&ip , int target , int sum , int ind, vector<int>&op , vector<vector<int>>&ans)
+    {
+        if(ind >= ip.size())
+            return;
+        
+        if(sum > target)
+            return;
+        
+        if(sum == target){
+            ans.push_back(op);
+            return;
+        }
+    
+        op.push_back(ip[ind]);
+        solve(ip , target , sum+ip[ind] , ind , op , ans);
+        op.pop_back();
+        solve(ip , target , sum, ind+1 , op , ans);
+    }
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+       vector<vector<int>>ans;
+        vector<int>op;
+        solve(candidates , target , 0 , 0 ,op , ans );
+        return ans;
+    }
+};
