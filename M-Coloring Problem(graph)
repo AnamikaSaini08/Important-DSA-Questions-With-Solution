@@ -1,0 +1,35 @@
+bool isSafe(bool graph[101][101] , int color[] , int cr , int v)
+{
+    for(int i=0 ; i<v ; i++)
+    {
+        if(graph[v][i] == 1)
+        {
+            if(color[i] == cr)
+                return false;
+        }
+    }
+    return true;
+}
+
+bool solve(bool graph[101][101] , int color[] , int m , int v , int n)
+{
+    if(v >= n)
+       return true;
+       
+    for(int cr = 1 ; cr<=m ; cr++)
+    {
+        if(isSafe(graph , color , cr , v))
+        {
+            color[v] = cr;
+            if(solve(graph , color , m , v+1 , n))
+               return true;
+            color[v] = 0;
+        }
+    }
+    return false;
+}
+bool graphColoring(bool graph[101][101], int m, int n) {
+    // your code here
+    int color[n] = {0};
+    return solve(graph , color , m , 0 , n);
+}
