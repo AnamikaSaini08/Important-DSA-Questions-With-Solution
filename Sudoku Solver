@@ -1,0 +1,65 @@
+class Solution {
+public:
+    bool isSafe(vector<vector<char>>& board , int x , int y , int num)
+    {
+        //row
+        for(int i=0 ; i<9 ; i++){
+            if( i!= y and board[x][i] == num+'0')
+                return false;
+        }
+        
+        //col
+        for(int i=0 ; i<9 ; i++){
+            if( i!= x and board[i][y] == num + '0')
+                return false;
+        }
+        
+        //3*3 matrix
+        int startRow = x - x % 3;
+         int   startCol = y - y % 3;
+   
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+                if (board[i + startRow][j + startCol] == num+'0')
+                    return false;
+        return true;
+    }
+    bool solve(vector<vector<char>>& board , int x , int y )
+    {
+        if(x == 9)
+            return true;
+        
+        if(board[x][y] == '.')
+        {
+            for(int i = 1; i<=9 ; i++)
+            {
+                if(isSafe(board , x , y , i ))
+                {
+                    board[x][y] = (i+'0');
+                    
+                    if(y == 8)
+                    {
+                        if(solve(board , x+1 , 0))
+                            return true;
+                    }
+                    else{
+                        if(solve(board , x , y+1))
+                            return true;
+                    }
+                    board[x][y] = '.';
+                }
+            }
+            return false;
+        }
+        else{
+            if(y==8)
+                return solve(board , x+1 , 0);
+            else
+                return solve(board , x , y+1);
+        }
+        return true;
+    }
+    void solveSudoku(vector<vector<char>>& board) {
+        solve(board , 0 , 0);
+    }
+};
