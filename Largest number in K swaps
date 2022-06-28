@@ -1,0 +1,73 @@
+class Solution
+{
+    public:
+    void solve(int ind , string &ans , string &str , int k)
+    {
+        if(!k)
+            return;
+        
+        char maxchar = str[ind];
+        for(int i = ind+1 ; i<str.size() ; i++){
+            if(maxchar < str[i])
+                maxchar = str[i];
+        }
+        
+        if(maxchar != str[ind])
+            k--;
+        
+        for(int i = str.size()-1 ; i>=ind ; i--){
+            if(str[i] == maxchar)
+            {
+                swap(str[ind] , str[i]);
+                if(ans < str)
+                    ans = str;
+                solve(ind+1 , ans , str , k);
+                swap(str[ind] , str[i]);
+            }
+        }
+    }
+    //Function to find the largest number after k swaps.
+    string findMaximumNum(string str, int k)
+    {
+       // code here.
+       string ans = str;
+       solve(0 , ans , str , k);
+       return ans;
+    }
+};class Solution
+{
+    public:
+    void solve(int ind , string &ans , string &str , int k)
+    {
+        if(!k)
+            return;
+        
+        char maxchar = str[ind];
+        for(int i = ind+1 ; i<str.size() ; i++){
+            if(maxchar < str[i])
+                maxchar = str[i];
+        }
+        
+        if(maxchar != str[ind])
+            k--;
+        
+        for(int i = str.size()-1 ; i>=ind ; i--){
+            if(str[i] == maxchar)
+            {
+                swap(str[ind] , str[i]);
+                if(ans < str)
+                    ans = str;
+                solve(ind+1 , ans , str , k);
+                swap(str[ind] , str[i]);
+            }
+        }
+    }
+    //Function to find the largest number after k swaps.
+    string findMaximumNum(string str, int k)
+    {
+       // code here.
+       string ans = str;
+       solve(0 , ans , str , k);
+       return ans;
+    }
+};
