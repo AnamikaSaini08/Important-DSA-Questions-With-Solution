@@ -1,0 +1,42 @@
+class Solution {
+public:
+    bool isValid(vector<vector<char>>& board , vector<vector<int>>& visit , int x , int y , string &str , int ind , int r , int c)
+    {
+        if(x<0 || y<0 || x>=r || y>=c || visit[x][y] || board[x][y] != str[ind])
+            return false;
+        return true;
+    }
+     bool solve(vector<vector<char>>& board ,vector<vector<int>>&visit , string str ,  int x , int y , int ind , int r , int c)
+    {
+        if(ind == str.size())
+            return true;
+        
+        if(isValid(board , visit , x ,y , str , ind , r , c))
+        {
+            visit[x][y] = 1;
+            //left
+            if(solve(board , visit, str ,x , y-1 , ind+1 , r , c ))   return true;
+            //right
+            if(solve(board , visit , str ,x , y+1 , ind+1 , r , c ))  return true;
+            //up
+            if(solve(board , visit , str ,x-1 , y , ind+1 , r ,c ))  return true;
+            //down
+            if(solve(board , visit , str ,x+1 , y , ind+1 , r , c )) return true;
+            
+            visit[x][y]  = 0;
+        }
+        return false;
+    }
+    bool exist(vector<vector<char>>& board, string word) {
+        vector<vector<int>>visit(board.size() , vector<int>(board[0].size() , 0));
+        int x , y;
+        bool flag = false , res = false;
+        
+        for(int i=0 ; i<board.size() ; i++)
+            for(int j=0 ; j<board[i].size() ; j++)
+                if(board[i][j] == word[0] && solve(board , visit , word , i , j , 0 , board.size() , board[0].size()))
+                    return true;
+        
+        return false;
+    }
+};
