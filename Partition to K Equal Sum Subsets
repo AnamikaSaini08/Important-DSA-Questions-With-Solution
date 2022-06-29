@@ -1,0 +1,51 @@
+class Solution {
+    
+public:
+    bool solve(int i, int bucketNum , int sum , int target , int k , vector<int>&nums ,vector<bool>&visit)
+    {
+     //   if(dp[i][bucketNum][sum] != -1)
+     //       return dp[i][bucketNum][sum] ;
+        
+        if(bucketNum == k+1)  return true;
+        
+        if(sum == target){
+            return solve(0 , bucketNum+1 , 0 , target , k , nums , visit);
+        }
+        
+        if(sum > target)
+            return false;
+        
+        if(i >= nums.size())
+            return false;
+        
+        if(visit[i]){
+            return solve(i+1 , bucketNum , sum , target ,  k, nums , visit);
+        }
+        else{
+            bool op1 = solve(i+1 , bucketNum , sum , target ,  k, nums , visit);
+            sum += nums[i];
+            visit[i] = true;
+            bool op2 = solve(i+1 , bucketNum , sum , target ,  k, nums , visit);
+            sum  -= nums[i];
+            visit[i] = false;
+            
+            return  op1||op2;
+        }
+        return true;
+    }
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
+        int sum = 0 , n = nums.size();
+        
+        if(k > n)  return false;
+        if(k==1)
+            return true;
+        
+        for(int i=0 ; i<n; i++)
+            sum += nums[i];
+        if(sum % k)  return false;
+        
+        vector<bool>visit(nums.size() ,false);
+        sort(nums.begin() , nums.end());
+        return solve(0 , 1 , 0 , sum/k , k , nums , visit);
+    }
+};
