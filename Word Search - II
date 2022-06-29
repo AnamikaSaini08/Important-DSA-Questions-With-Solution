@@ -1,0 +1,136 @@
+//BRUTE FORCE
+
+class Solution {
+public:
+    bool isValid(vector<vector<char>>& board , vector<vector<int>>& visit , int x , int y , vector<string> &str , int wrd_ind , int ind , int r , int c)
+    {
+        if(x<0 || y<0 || x>=r || y>=c || visit[x][y] || board[x][y] != str[wrd_ind][ind])
+            return false;
+        return true;
+    }
+     bool solve(vector<vector<char>>& board ,vector<vector<int>>&visit , vector<string>&str ,  int x , int y , int wrd_ind , int ind, int r , int c , vector<string>&op)
+    {
+        if(ind == str[wrd_ind].size()){
+            op.push_back(str[wrd_ind]);
+            return true;
+        }
+        
+        if(isValid(board , visit , x ,y , str , wrd_ind , ind , r , c))
+        {
+            visit[x][y] = 1;
+            //left
+            if(solve(board , visit, str ,x , y-1 , wrd_ind , ind+1 , r , c , op )){ visit[x][y] = 0; return true;}
+            //right
+            if(solve(board , visit , str ,x , y+1 , wrd_ind , ind+1 , r , c , op )){ visit[x][y] = 0; return true;}
+            //up
+            if(solve(board , visit , str ,x-1 , y , wrd_ind , ind+1 , r ,c , op )) { visit[x][y] = 0; return true;}
+            //down
+            if(solve(board , visit , str ,x+1 , y , wrd_ind , ind+1 , r , c , op )){ visit[x][y] = 0; return true;}
+            
+            visit[x][y]  = 0;
+        }
+        return false;
+    }
+   
+    vector<string> findWords(vector<vector<char>>& board, vector<string>& words)
+    {
+        int r = board.size() , c = board[0].size() , wrd_ind = 0;
+        vector<vector<int>>visit(r , vector<int>(c , 0));
+        vector<string>op;
+        bool flag = false;
+        int i , j;
+        
+        while(wrd_ind < words.size())
+        {
+        for(i=0 ; i<r ; i++)
+        {
+            for(j=0 ; j<c ; j++)
+            {
+                if(board[i][j] == words[wrd_ind][0])
+                {
+                    flag = solve(board , visit , words , i , j , wrd_ind , 0 , r, c , op);
+                    if(flag)
+                    {
+                        wrd_ind += 1;
+                        i = 0 ;
+                        j = -1;
+                        flag = false;
+                        if(wrd_ind == words.size())
+                             return op;
+                    }
+                }
+            }
+            if(wrd_ind == words.size())
+                return op;
+        }
+            wrd_ind += 1;
+      }
+        
+        return op;
+    }
+};
+
+
+
+// EFFICIENT APPROACH USING TRIE DATA STRUCTURE
+
+class Trie{
+public:
+    Trie* children[26];
+    bool endOfWord;
+    Trie(){
+        for(int i = 0; i < 26; ++i){
+            children[i] = NULL;
+            endOfWord = false;
+        }
+    }
+    void insert(string word){
+        Trie* curr = this;
+        for(char c: word){
+            if(!curr->children[c-'a']) curr->children[c - 'a'] = new Trie();
+            curr = curr->children[c-'a'];
+        }
+        curr->endOfWord = true;
+    }
+};
+
+class Solution {
+    void dfs(vector<vector<char>>& board, int i, int j, Trie *trie, unordered_set<string>& result, string s){
+        if(i<0 || j<0 || i>= board.size() || j>= board[0].size() || board[i][j] =='$')
+            return;
+        
+        char c = board[i][j];
+       
+        board[i][j] = '$';
+        Trie *t = trie->children[c - 'a'];
+        if(t){
+            string ss = s + c;
+            if(t->endOfWord) result.insert(ss);
+            dfs(board, i+1, j, t, result, ss);
+            dfs(board, i-1, j, t, result, ss);
+            dfs(board, i, j+1, t, result, ss);
+            dfs(board, i, j-1, t, result, ss);
+        }
+        board[i][j] = c;
+        return;
+    }
+public:
+    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
+        if(words.size() == 0) return {};
+        Trie trie;
+        for(string w: words){
+            trie.insert(w);
+        }
+        
+        unordered_set<string>ans;
+        for(int i = 0; i < board.size(); ++i){
+            for(int j = 0; j < board[0].size(); ++j){
+                dfs(board, i, j, &trie, ans, "");
+            }
+        }
+        vector<string>res;
+        for(auto str : ans)
+            res.push_back(str);
+        return res;
+    }
+};
