@@ -1,0 +1,23 @@
+void solver(vector<int>& arr, int& sum, int& ans, int std, int curr, int index) {    
+    if (std == 0) {
+        ans = min(ans, abs(sum -  2*curr));
+        return;
+    }
+    
+    if (index == arr.size()) return;
+    
+    solver(arr, sum, ans, std - 1, curr + arr[index], index + 1);
+    solver(arr, sum, ans, std, curr, index + 1);
+}
+
+int tugOfWar(vector<int> &arr, int n)
+{
+    // write your code here
+    int ans = INT_MAX;
+    int sum = 0;
+    for (int i : arr) sum += i;
+    
+    solver(arr, sum, ans, n / 2, 0, 0);
+    
+    return ans;
+}
