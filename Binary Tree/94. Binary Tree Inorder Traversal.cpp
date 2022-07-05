@@ -1,0 +1,36 @@
+class Solution {
+public:
+    void solve(TreeNode *root , vector<int>v ,vector<string>&ans)
+    {
+          if(!root)
+            return;
+        
+          if(!root->left and !root->right){
+            v.push_back(root->val);
+            string s;
+              
+            for(int i=0 ; i<v.size() ; i++){
+                s += to_string(v[i]);
+                
+                if(i != (v.size()-1) )
+                    s += "->";
+            }
+            ans.push_back(s);
+            return;
+          }
+          v.push_back(root->val);
+          solve(root->left , v , ans);
+          solve(root->right , v , ans);
+          return;
+     }
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string>ans;
+        vector<int>op;
+        
+        if(!root)
+            return ans;
+        
+        solve(root , op , ans);
+        return ans;
+    }
+};
