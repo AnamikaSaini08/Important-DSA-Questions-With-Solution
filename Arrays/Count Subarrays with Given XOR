@@ -1,0 +1,21 @@
+int subarraysXor(vector<int> &arr, int k)
+{
+    //    Write your code here.
+    int xr = 0, count = 0;
+    int n = arr.size();
+    unordered_map<int,int>mp;
+    
+    for(int i = 0 ; i<n ; i++)
+    {
+        xr = xr ^ arr[i];
+        if(xr == k)
+            count += 1;
+        int y = xr ^ k;
+        
+        if(mp.find(y) != mp.end())
+            count += mp[y];
+        mp[xr]++;
+    }
+    return count;
+    
+}
