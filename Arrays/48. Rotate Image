@@ -1,0 +1,25 @@
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int row =  matrix.size();
+        int col = matrix[0].size();
+        
+        int r = 0, c = 0;
+        
+        while( r< row and c< col)
+        {
+            int i = r ;
+            int j = c ;
+            
+            while( i< row){
+                swap(matrix[r][i] , matrix[i][c]);
+                i++;
+            }
+            r += 1;
+            c += 1;
+        }
+        
+        for(int i=0 ; i<col ; i++)
+            reverse(matrix[i].begin() , matrix[i].end());
+    }
+};
