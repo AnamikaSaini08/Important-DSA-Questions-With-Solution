@@ -1,0 +1,24 @@
+class Solution
+{
+    public:
+    void solve(Node* root, int &k , int target , int &ans)
+    {
+        if(!root)
+            return;
+        
+        solve(root->right , k , target , ans);
+        k += 1;
+        if(k == target){
+            ans = root->data;
+            return;
+        }
+        solve(root->left , k , target , ans);
+    }
+    int kthLargest(Node *root, int K)
+    {
+        //Your code here
+        int ans = 0 , count = 0;
+        solve(root , count , K , ans);
+        return ans;
+    }
+};
