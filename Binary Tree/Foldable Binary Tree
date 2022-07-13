@@ -1,0 +1,15 @@
+bool solve(Node *p , Node *q)
+{
+    if(!q || !p)
+        return p == q;
+    
+    return solve(p->left , q->right) and solve(p->right , q->left);
+}
+
+//Function to check whether a binary tree is foldable or not.
+
+bool IsFoldable(Node* root)
+{
+    // Your code goes here
+    return (!root || solve(root->left , root->right));
+}
