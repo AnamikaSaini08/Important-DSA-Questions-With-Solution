@@ -1,0 +1,26 @@
+int findRightSibling(struct Node* root, int key) {
+  // Write your code here
+  if(!root)
+    return -1;
+  queue<Node*>q;
+  q.push(root);
+  while(q.size())
+  {
+    int size = q.size();
+    while(size--)
+    {
+      Node *node = q.front();
+      q.pop();
+      if(node->left)
+        q.push(node->left);
+      if(node->right)
+        q.push(node->right);
+      if(node->data == key)
+      {
+        if(!size)   return -1;
+        return q.front()->data;
+      }
+    }
+  } 
+  return -1;
+}
