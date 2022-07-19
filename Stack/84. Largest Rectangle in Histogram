@@ -1,0 +1,51 @@
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        int n = heights.size();
+        int left[n] , right[n];
+        
+        stack<pair<int,int>>st;
+        //nearest smaller to left
+        for(int i=0 ; i<n ; i++)
+        {
+            if(!st.size())
+                left[i] = -1;
+            else{
+                while(st.size() and st.top().first >= heights[i])
+                    st.pop();
+                if(!st.size())
+                    left[i] = -1;
+                else
+                    left[i] = st.top().second;
+            }
+            st.push({heights[i] , i});
+        }
+        
+        while(st.size())
+            st.pop();
+        
+        //nearest smaller to right
+        for(int i=n-1 ; i>=0 ; i--)
+        {
+            if(!st.size())
+                right[i] = n;
+            else{
+                while(st.size() and st.top().first >= heights[i])
+                    st.pop();
+                if(!st.size())
+                    right[i] = n;
+                else
+                    right[i] = st.top().second;
+            }
+            st.push({heights[i] , i});
+        }
+        
+        int ans = INT_MIN;
+        //calculate area
+        for(int i=0 ; i<n ; i++)
+        {
+            ans = max(ans , (right[i]-left[i]-1) * heights[i]);
+        }
+        return ans;
+    }
+};
