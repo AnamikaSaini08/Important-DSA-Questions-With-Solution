@@ -1,0 +1,34 @@
+
+#include<bits/stdc++.h>
+int longestIncreasingSubsequence(int arr[], int n)
+{
+    // Write Your Code here
+    vector<int>dp(n , 1),hash(n , 0);
+    int mx = 0 , lastInd = 0;
+    for(int i = 1; i<n ; i++)
+    {
+        for(int prev = 0; prev<i ; prev++)
+        {
+            if(arr[prev] < arr[i] && 1+dp[prev] > dp[i]){
+                dp[i] = 1+dp[prev];
+                hash[i] = prev;
+            }
+        }
+        if(dp[i] > mx){
+            mx = dp[i];
+            lastInd = i;
+        }
+    }
+    vector<int>temp;
+    temp.push_back(arr[lastInd]);
+    while(hash[lastInd] != lastInd)
+    {
+        lastInd = hash[lastInd];
+         temp.push_back(arr[lastInd]);
+    }
+    reverse(temp.begin() , temp.end());
+    for(int t : temp)
+        cout<<t<<" ";
+    cout<<endl;
+    return mx;
+}
