@@ -1,0 +1,45 @@
+class Solution {
+public:
+    int dp[2502][2502];
+    int solve(vector<int>& nums , int curr , int prev)
+    {
+        if(nums.size() == curr)
+            return 0;
+        if(dp[curr+1][prev+1] != -1)
+            return dp[curr+1][prev+1];
+        
+        if(prev == -1 || nums[prev] < nums[curr])
+            return dp[curr+1][prev+1] = max(1+solve(nums , curr+1 ,curr) , solve(nums , curr+1 , prev));
+        else
+            return dp[curr+1][prev+1] = solve(nums,curr+1 , prev);
+    }
+    int lengthOfLIS(vector<int>& nums) {
+        memset(dp , -1 , sizeof(dp));
+        return solve(nums , 0 , -1);
+    }
+};
+
+
+//Tabular Method
+
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        vector<vector<int>>dp(n+1 , vector<int>(n+1,0));
+        int prev = -1;
+        
+        for(int curr = n-1 ; curr>=0 ; curr--)
+        {
+            for(int prev = curr-1 ; prev >=-1 ; prev--)
+            {
+                int len = dp[curr+1][prev+1];
+                if(prev == -1 || nums[prev] < nums[curr])
+                   len = max(len , 1+dp[curr+1][curr+1]);
+                dp[curr][prev+1] = len;
+            }
+        }
+        return dp[0][-1+1];
+        return dp[n][n+1];
+    }
+};
