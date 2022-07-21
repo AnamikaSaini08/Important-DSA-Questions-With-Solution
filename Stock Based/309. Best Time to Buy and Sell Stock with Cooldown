@@ -1,0 +1,44 @@
+class Solution {
+public:
+    int dp[5001][2];
+    int solve(vector<int>& prices , int i , bool buy)
+    {
+        if(i >= prices.size())
+            return 0;
+        if(dp[i][buy] != -1)
+            return dp[i][buy];
+        
+        if(buy)
+            return dp[i][buy] = max(solve(prices , i+1 , buy) , solve(prices , i+1 , !buy) - prices[i]);
+        else
+            return dp[i][buy] = max(solve(prices , i+1 , buy) , solve(prices , i+2 , !buy) + prices[i]);
+    }
+    int maxProfit(vector<int>& prices) {
+        memset(dp , -1 , sizeof(dp));
+        return solve(prices , 0 , true);
+    }
+};
+
+//Tabular
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        vector<vector<int>>dp(n+2 , vector<int>(2,0));
+        
+        for(int i = n-1 ; i>=0 ; i--)
+        {
+            for(int j=0 ; j<=1 ; j++)
+            {
+                 if(j)
+                   dp[i][j] = max(dp[i+1][1] , dp[i+1][0]-prices[i]);
+                 else
+                   dp[i][j] = max(dp[i+1][0] , dp[i+2][1]+ prices[i]);
+            }
+        }
+        return dp[0][1];
+    }
+};
+
+
