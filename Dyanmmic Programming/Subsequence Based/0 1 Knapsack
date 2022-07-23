@@ -1,0 +1,60 @@
+int solve(vector<int>&wt, vector<int>&val, int i , int maxwt , vector<vector<int>>&dp)
+{
+    if(maxwt == 0)
+        return 0;
+    if(i < 0)
+        return 0;
+    if(dp[i][maxwt] != -1)   return dp[i][maxwt];
+    
+    int nottake = solve(wt , val , i-1 , maxwt , dp);
+    int take = 0;
+    if(wt[i] <= maxwt)
+        take = val[i] + solve(wt , val , i-1 , maxwt - wt[i] , dp);
+    return dp[i][maxwt] = max(take , nottake);
+}
+
+int knapsack(vector<int> weight, vector<int> value, int n, int maxWeight) 
+{
+	// Write your code here
+    vector<vector<int>>dp(n , vector<int>(maxWeight+1 , -1));
+    return solve(weight , value , n-1 ,maxWeight , dp);
+}
+
+
+//Tabular
+#include<bits/stdc++.h>
+int solve(vector<int>&wt, vector<int>&val, int i , int maxwt , vector<vector<int>>&dp)
+{
+    if(maxwt == 0)
+        return 0;
+    if(i < 0)
+        return 0;
+    if(dp[i][maxwt] != -1)   return dp[i][maxwt];
+    
+    int nottake = solve(wt , val , i-1 , maxwt , dp);
+    int take = 0;
+    if(wt[i] <= maxwt)
+        take = val[i] + solve(wt , val , i-1 , maxwt - wt[i] , dp);
+    return dp[i][maxwt] = max(take , nottake);
+}
+
+int knapsack(vector<int> weight, vector<int> value, int n, int maxWeight) 
+{
+	// Write your code here
+    vector<vector<int>>dp(n , vector<int>(maxWeight+1 , 0));
+    for(int i = weight[0] ; i<= maxWeight ; i++)
+        dp[0][i] = value[0];
+    
+    for(int i = 1 ; i<n ; i++)
+    {
+        for(int j = 0 ; j<=maxWeight ; j++)
+        {
+            int nottake = dp[i-1][j];
+            int take = INT_MIN;
+            if(weight[i] <= j)
+                take = value[i] + dp[i-1][j-weight[i]];
+            dp[i][j] = max(take , nottake);
+        }
+    }
+    return dp[n-1][maxWeight];
+}
