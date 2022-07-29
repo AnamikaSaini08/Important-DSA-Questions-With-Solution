@@ -1,0 +1,25 @@
+public:
+    // Function to return Breadth First Traversal of given graph.
+    vector<int> bfsOfGraph(int V, vector<int> adj[]) {
+        // Code here
+        vector<int>ans;
+        vector<bool>visit(V,0);
+        queue<int>q;
+        q.push(0);
+        visit[0] = true;
+        
+        while(q.size())
+        {
+            int node = q.front();
+            q.pop();
+            for(auto nbr : adj[node])
+            {
+                if(!visit[nbr]){
+                    q.push(nbr);
+                    visit[nbr] = true;
+                }
+            }
+            ans.push_back(node);
+        }
+        return ans;
+    }
