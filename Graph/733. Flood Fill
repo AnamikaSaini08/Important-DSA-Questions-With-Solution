@@ -1,0 +1,27 @@
+class Solution {
+public:
+    void solve(vector<vector<int>>&image , int sr , int sc , int color , vector<vector<int>>&v,vector<vector<int>>&dr , int init)
+    {
+        if(sr<0 || sr>=v.size() || sc<0 || sc>=v[0].size() || v[sr][sc] != init || v[sr][sc] == color)
+            return;
+        
+        v[sr][sc] = color;
+        for(int i=0 ; i<4 ; i++)
+            solve(image , sr+dr[i][0] , sc+dr[i][1] , color , v , dr,init);
+    }
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        vector<vector<int>>v;
+        for(auto temp : image){
+            v.push_back(temp);
+        }
+        
+        vector<vector<int>>dr = {
+            {-1,0} ,
+            {1,0} ,
+            {0,-1} , 
+            {0,1}
+        };
+        solve(image , sr , sc , color , v, dr , v[sr][sc]);
+        return v;
+    }
+};
