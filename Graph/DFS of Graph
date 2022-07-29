@@ -1,0 +1,19 @@
+  public:
+    void dfs(int src ,vector<bool>&visit ,vector<int>&ans , vector<int>adj[] )
+    {
+        visit[src] = true;
+        ans.push_back(src);
+        for(auto nbr : adj[src])
+        {
+            if(!visit[nbr])
+                dfs(nbr , visit , ans, adj);
+        }
+    }
+    // Function to return a list containing the DFS traversal of the graph.
+    vector<int> dfsOfGraph(int V, vector<int> adj[]) {
+        // Code here
+        vector<bool>visit(V,0);
+        vector<int>ans;
+        dfs(0 , visit , ans , adj);
+        return ans;
+    }
