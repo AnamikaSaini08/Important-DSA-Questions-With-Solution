@@ -1,0 +1,42 @@
+class Solution {
+public:
+     bool solve(vector<vector<int>>&grid , int row , int col , int &ans)
+    {
+        if(row == 0 || row == grid.size()-1 || col == 0 || col == grid[0].size()-1)
+        {
+            if(grid[row][col]){
+                ans = 0;
+                return true;
+            }
+            return false;
+        }
+        if(grid[row][col] == 0)
+            return false;
+         
+        grid[row][col] = 0;
+        ans += 1;
+        
+       bool check = solve(grid , row-1 , col , ans) | solve(grid , row+1 , col , ans) |solve(grid , row , col-1 , ans)| solve(grid , row , col+1 , ans);
+        if(check)
+            ans = 0;
+         return check;
+    }
+    
+    int numEnclaves(vector<vector<int>>& grid) {
+        int ans = 0;
+        int row = grid.size() , col = grid[0].size();
+        
+        for(int i=1 ; i<row-1 ; i++)
+        {
+            for(int j=1 ; j<col-1 ; j++)
+            {
+                if(grid[i][j]){
+                    int count = 0;
+                    solve(grid , i , j , count);
+                    ans += count;
+                }
+            }
+        }
+        return ans;
+    }
+};
