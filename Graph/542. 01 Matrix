@@ -1,0 +1,42 @@
+class Solution {
+public:
+    vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
+        
+        queue<pair<int,int>>q;
+        int row = mat.size();
+        int col = mat[0].size();
+        vector<vector<int>>dist(row , vector<int>(col , INT_MAX));
+        
+        for(int i=0 ; i<row ; i++)
+        {
+            for(int j =0 ; j<col ; j++)
+            {
+                if(!mat[i][j]){
+                    q.push({i,j});
+                    dist[i][j] = 0;
+                }
+            }
+        }
+        
+        vector<vector<int>>dir = {{-1,0},{1,0},{0,-1},{0,1}};
+        
+        while(q.size())
+        {
+            int x = q.front().first;
+            int y = q.front().second;
+            q.pop();
+            
+            for(int i=0 ; i<4 ; i++)
+            {
+                int xx = x+dir[i][0];
+                int yy = y+dir[i][1];
+                if(xx>=0 and xx<row and yy>=0 and yy<col and dist[xx][yy] == INT_MAX)
+                {
+                    dist[xx][yy] = dist[x][y]+1;
+                    q.push({xx,yy});
+                }
+            }
+        }
+        return dist;
+    }
+};
