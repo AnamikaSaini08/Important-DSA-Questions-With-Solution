@@ -1,0 +1,36 @@
+ bool bfs(queue<pair<int,int>>&q , bool visit[] , vector<int> adj[])
+    {
+        while(!q.empty())
+        {
+            int src = q.front().first;
+            int parent = q.front().second;
+            q.pop();
+            visit[src] = true;
+            
+            for(auto nbr : adj[src])
+            {
+                if(!visit[nbr]){
+                    q.push({nbr , src});
+                }
+                else{
+                    if(nbr != parent)
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    // Function to detect cycle in an undirected graph.
+    bool isCycle(int V, vector<int> adj[]) {
+        // Code here
+        queue<pair<int,int>>q;
+        bool visit[V] = {false};
+        for(int i=0 ; i<V; i++){
+            if(!visit[i]){
+                q.push({i,-1});
+                if(bfs(q , visit , adj))
+                    return true;
+            }
+        }
+        return false;
+    }
