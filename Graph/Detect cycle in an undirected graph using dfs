@@ -1,0 +1,26 @@
+ void dfs(int src , int par , int visit[] ,vector<int> adj[], bool &cycle)
+    {
+        visit[src] = true;
+        for(auto nbr : adj[src])
+        {
+            if(!visit[nbr])
+                dfs(nbr , src , visit , adj , cycle);
+            else if(par != -1 and nbr != par){
+                cycle = true;
+                return;
+            }
+        }
+    }
+    
+     bool isCycle(int V, vector<int> adj[]) {
+        // Code here
+        int visit[V] = {0};
+        bool cycle = false;
+        for(int i=0 ; i<V ; i++)
+        {
+            if(!visit[i]){
+                dfs(i , -1 , visit , adj , cycle);
+            }
+        }
+        return cycle;
+    }
