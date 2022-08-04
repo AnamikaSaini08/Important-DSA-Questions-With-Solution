@@ -1,0 +1,31 @@
+bool dfs(int node , bool visit[] , bool rec[] , vector<int> adj[])
+    {
+        visit[node] = true;
+        rec[node] = true;
+        
+        for(auto nbr : adj[node])
+        {
+            if(!visit[nbr]){
+                if(dfs(nbr , visit , rec , adj))
+                    return true;
+            }
+            else if(rec[nbr])
+                return true;
+        }
+        rec[node] = false;
+        return false;
+    }
+    // Function to detect cycle in a directed graph.
+    bool isCyclic(int V, vector<int> adj[]) {
+        // code here
+        bool visit[V] = {false};
+        bool rec[V] = {false};
+        
+        for(int i=0 ; i<V ; i++){
+            if(!visit[i])
+                if(dfs(i , visit , rec , adj))
+                    return true;
+                    
+        }
+        return false;
+    }
