@@ -1,0 +1,33 @@
+   vector <int> dijkstra(int V, vector<vector<int>> adj[], int S)
+    {
+        // Code here
+        set<pair<int,int>>s;
+        vector<int>dist(V+1,INT_MAX);
+        
+        dist[S] = 0;
+        s.insert({0,S});        //weight , node
+        
+        while(!s.empty())
+        {
+            int node = s.begin()->second;
+            int distTillNow = s.begin()->first;
+            s.erase(s.begin());
+        
+            for(auto nbrPair : adj[node])
+            {
+                    int nbr = nbrPair[0];
+                    int currentEdge = nbrPair[1];
+                    
+                    int d = distTillNow + currentEdge;
+                    
+                    
+                    if(d < dist[nbr])
+                    {
+
+                    dist[nbr] = d;
+                    s.insert({dist[nbr], nbr});
+                }
+            }
+        }
+        return dist;
+    }
