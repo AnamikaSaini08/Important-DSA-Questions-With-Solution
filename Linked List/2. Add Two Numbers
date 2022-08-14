@@ -49,3 +49,31 @@ public:
         return head;
     }
 };
+
+
+//OPTIMISE
+  ListNode* addTwoNumbers(ListNode* head1, ListNode* head2) {
+        ListNode *head = new ListNode();
+        ListNode *prev = head;
+        int sum = 0; 
+        int carry = 0;
+        
+        while(head1 || head2 || carry)
+        {
+            if(head1){
+                sum += head1->val;
+                head1 = head1->next;
+            }
+            if(head2){
+                sum += head2->val;
+                head2 = head2->next; 
+            }
+            sum += carry;
+            carry = sum/10;
+            ListNode *newnode = new ListNode(sum%10);
+            sum = 0;
+            prev->next = newnode;
+            prev = newnode;
+        }
+        return head->next;
+    }
