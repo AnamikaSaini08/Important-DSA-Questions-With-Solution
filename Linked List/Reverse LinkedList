@@ -15,3 +15,26 @@ public:
         return reverse(head);
     }
 };
+
+
+//ITERATIVE
+ListNode* reverseList(ListNode* head) {
+      
+        if(!head || !head->next)
+            return head;
+        
+        ListNode *prev , *curr , *next;
+        prev = NULL;
+        curr = head;
+        next = head->next;
+        while(curr->next)
+        {
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+            next = curr->next;
+        }
+        curr->next = prev;
+        head = curr;
+        return head;
+    }
