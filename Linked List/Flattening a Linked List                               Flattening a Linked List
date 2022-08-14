@@ -1,0 +1,27 @@
+Node* merge(Node *a , Node *b)
+{
+    if(!a)  return b;
+    if(!b)  return a;
+    Node *node;
+    if(a->data < b->data)
+    {
+        node = a;
+        node->bottom = merge(a->bottom , b);
+    }
+    else{
+        node = b ;
+        node->bottom = merge(a , b->bottom);
+    }
+    return node;
+}
+Node *flatten(Node *root)
+{
+   // Your code here
+   if(root == NULL || root->next == NULL)
+    return root;
+    
+   root->next = flatten(root->next);
+   root = merge(root , root->next);
+   return root;
+   
+}
