@@ -1,0 +1,51 @@
+class Solution {
+public:
+   
+    ListNode* addTwoNumbers(ListNode* head1, ListNode* head2) {
+        ListNode *head = NULL , *prev;
+        int sum = 0; 
+        int carry = 0;
+        
+        while(head1 and head2)
+        {
+            sum = (head1->val + head2->val) + carry;
+            carry = sum/10;
+            sum = sum%10;
+            ListNode *newnode = new ListNode(sum);
+            if(!head){
+                head = newnode;
+                prev = head;
+            }
+            else{
+                prev->next = newnode;
+                prev = newnode;
+            }
+            head1 = head1->next;
+            head2 = head2->next; 
+        }
+        while(head1){
+            sum = head1->val + carry;
+            carry = sum/10;
+            sum = sum%10;
+            ListNode *newnode = new ListNode(sum);
+            prev->next = newnode;
+            prev = newnode;
+            head1 = head1->next;
+        }
+         while(head2){
+            sum = head2->val + carry;
+            carry = sum/10;
+            sum = sum%10;
+            ListNode *newnode = new ListNode(sum);
+            prev->next = newnode;
+            prev = newnode;
+             head2 = head2->next;
+        }
+        if(carry){
+            ListNode *newnode = new ListNode(carry);
+            prev->next = newnode;
+            prev = newnode;
+        }
+        return head;
+    }
+};
