@@ -1,0 +1,45 @@
+class Solution {
+public:
+    ListNode* merge(ListNode *a , ListNode *b)
+    {
+        if(!a)
+            return b;
+        if(!b)
+            return a;
+        
+        ListNode *newnode;
+        if(a->val <= b->val)
+        {
+            newnode = a;
+            newnode->next = merge(a->next , b);
+        }
+        else{
+            newnode = b;
+            newnode->next = merge(a , b->next);
+        }
+        return newnode;
+    }
+    
+    void mergeSorting(ListNode **head)
+    {
+        if(!(*head) || !(*head)->next)
+            return;
+        ListNode *slow = *head;
+        ListNode *fast = (*head)->next;
+        while(fast and fast->next)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        ListNode *temp = slow->next;
+        slow->next = NULL;
+        mergeSorting(head);
+        mergeSorting(&temp);
+        *head = merge(*head , temp);
+    }
+    
+    ListNode* sortList(ListNode* head) {
+        mergeSorting(&head);
+        return head;
+    }
+};
