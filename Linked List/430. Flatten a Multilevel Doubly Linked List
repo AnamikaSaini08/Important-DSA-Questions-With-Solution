@@ -1,0 +1,32 @@
+class Solution {
+public:
+    Node* solve(Node *head)
+    {
+       if(!head || (!head->next and !head->child)){
+            return head;
+       }
+        
+       if(head->child){
+          Node *temp = solve(head->child);
+          Node *k = head->next;
+          temp->next = head->next;
+          if(head->next)
+              head->next->prev = temp;
+          head->next = head->child;
+          head->next->prev = head;
+          head->child = NULL;
+           cout<<head->val<<" "<<temp->val<<endl;
+          if(k)
+             return solve(k);
+          else  
+             return temp;
+     }
+       else
+           return solve(head->next);
+        
+    }
+    Node* flatten(Node* head) {
+        solve(head);
+        return head;
+    }
+};
