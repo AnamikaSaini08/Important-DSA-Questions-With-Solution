@@ -1,0 +1,26 @@
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+        ListNode* less = new ListNode(0);
+        ListNode* temp_less = less;
+        ListNode* greater = new ListNode(0);
+        ListNode* temp_greater = greater;
+        
+        while(head)
+        {
+            if(head->val < x)
+            {
+                temp_less->next = head;
+                temp_less = temp_less->next;
+            }
+            else{
+                temp_greater->next = head;
+                temp_greater = temp_greater->next;
+            }
+            head = head->next;
+        }
+        temp_less->next = greater->next;
+        temp_greater->next = NULL;
+        return less->next;
+    }
+};
