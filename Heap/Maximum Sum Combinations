@@ -1,0 +1,32 @@
+vector<int> Solution::solve(vector<int> &A, vector<int> &B, int C) {
+    sort(A.begin() , A.end());
+    sort(B.begin() , B.end());
+    
+    priority_queue<pair<int , pair<int,int>>>maxH;
+    set<pair<int,int>>st;
+    int size = A.size();
+    maxH.push({A[size-1]+B[size-1] , {size-1 , size-1}});
+    st.insert({size-1,size-1});
+    
+    vector<int>v;
+    
+    while(C--)
+    {
+        v.push_back(maxH.top().first);
+        int x = maxH.top().second.first;
+        int y = maxH.top().second.second;
+        maxH.pop();
+        
+        if(x>0 and st.find({x-1,y}) == st.end())
+        {
+            st.insert({x-1,y});
+            maxH.push({A[x-1]+B[y] , {x-1,y}});
+        }
+        if(y>0 and st.find({x,y-1}) == st.end())
+        {
+            st.insert({x,y-1});
+            maxH.push({A[x]+B[y-1] , {x,y-1}});
+        }
+    }
+    return v;
+}
