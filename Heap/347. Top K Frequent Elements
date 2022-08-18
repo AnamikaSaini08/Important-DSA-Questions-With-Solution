@@ -1,0 +1,26 @@
+typedef pair<int,int>pr;
+
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        vector<int>ans;
+        priority_queue<pr , vector<pr> , greater<pr>>minH;
+        unordered_map<int,int>mp;
+        
+        for(int i=0 ; i<nums.size() ; i++)
+            mp[nums[i]]++;
+        
+        for(auto temp: mp){
+            minH.push({temp.second , temp.first});
+            if(minH.size()>k)
+                minH.pop();
+        }
+        while(minH.size())
+        {
+            ans.push_back(minH.top().second);
+            minH.pop();
+        }
+        return ans;
+        
+    }
+};
